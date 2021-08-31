@@ -65,9 +65,9 @@ Liftcord это современная, простая в использован
 
     bot = commands.Bot(command_prefix='&')
 
-    @bot.command()
-    async def say_it(ctx):
-        await ctx.reply('Liftcord!')
+    @bot.command(name = 'лифткорд')
+    async def say_lc(ctx):
+        await ctx.reply('ЛифтКорд!')
 
     bot.run('TOKEN')
 
