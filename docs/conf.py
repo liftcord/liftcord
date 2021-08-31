@@ -79,8 +79,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'nextcord'
-copyright = '2015-present, Rapptz'
+project = 'liftcord'
+copyright = '2021 xXSergeyXx'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -89,7 +89,7 @@ copyright = '2015-present, Rapptz'
 # The short X.Y version.
 
 version = ''
-with open('../nextcord/__init__.py') as f:
+with open('../liftcord/__init__.py') as f:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
 
 # The full version, including alpha/beta/rc tags.
