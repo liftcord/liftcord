@@ -1,11 +1,11 @@
-Liftcord это современная, простая в использовании, многофункциональная и асинхронная готовая оболочка API для Discord, написанная на Python.
+Liftcord это современная, простая в использовании, многофункциональная и асинхронная готовая оболочка API для Discord, написанная на Python и предназначенная для русскоговорящего СНГ сообщества.
 
 Ключевые особенности
 -------------
 
 - Современное Python использование ``async`` и ``await``.
-- Proper rate limit handling.
-- Optimised in both speed and memory.
+- Точная обработка скорости.
+- Оптимизация скорости и памяти.
 
 Установка
 ----------
@@ -17,22 +17,22 @@ Liftcord это современная, простая в использован
 .. code:: sh
 
     # Windows
-    py -3 -m pip install -U nextcord
-    pip install -U nextcord
+    py -3 -m pip install -U liftcord
+    pip install -U liftcord
 
     # Linux/macOS
-    python3 -m pip install -U nextcord
+    python3 -m pip install -U liftcord
 
 В противном случае, чтобы получить голосовую поддержку, вам следует выполнить следующую команду:
 
 .. code:: sh
 
     # Windows
-    py -3 -m pip install -U nextcord[voice]
-    pip install -U nextcord[voice]
+    py -3 -m pip install -U liftcord[voice]
+    pip install -U liftcord[voice]
 
     # Linux/macOS
-    python3 -m pip install -U "nextcord[voice]"
+    python3 -m pip install -U "liftcord[voice]"
 
 
 Чтобы установить разрабатываемую версию делайте следующее:
