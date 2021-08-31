@@ -1,16 +1,3 @@
-.. image:: assets/liftcord-banner.png
-   :alt: Liftcord
-
-.. image:: https://discord.com/api/guilds/881118111967883295/embed.png
-   :target: https://discord.gg/ZebatWssCB
-   :alt: Discord server invite
-.. image:: https://img.shields.io/pypi/v/nextcord.svg
-   :target: https://pypi.python.org/pypi/nextcord
-   :alt: PyPI version info
-.. image:: https://img.shields.io/pypi/pyversions/nextcord.svg
-   :target: https://pypi.python.org/pypi/nextcord
-   :alt: PyPI supported Python versions
-
 Liftcord это современная, простая в использовании, многофункциональная и асинхронная готовая оболочка API для Discord, написанная на Python.
 
 Ключевые особенности
