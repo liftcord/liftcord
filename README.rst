@@ -12,44 +12,18 @@ Liftcord это современная, простая в использован
 
 **Python 3.8 или выше обязательно**
 
-Чтобы установить библиотеку без полной голосовой поддержки, вы можете просто выполнить одну из следующих команд:
+Чтобы установить библиотеку, вы можете выполнить следующие действия:
 
-.. code:: sh
-
-    # Windows
-    py -3 -m pip install -U liftcord
-    pip install -U liftcord
-
-    # Linux/macOS
-    python3 -m pip install -U liftcord
-
-В противном случае, чтобы получить голосовую поддержку, вам следует выполнить следующую команду:
-
-.. code:: sh
-
-    # Windows
-    py -3 -m pip install -U liftcord[voice]
-    pip install -U liftcord[voice]
-
-    # Linux/macOS
-    python3 -m pip install -U "liftcord[voice]"
-
-
-Чтобы установить разрабатываемую версию делайте следующее:
 
 .. code:: sh
 
     $ git clone https://github.com/liftcord/liftcord/
     $ cd liftcord
-    $ python3 -m pip install -U .[voice]
 
 
 Необязательные библиотеки
 ~~~~~~~~~~~~~~~~~~
 
-* `PyNaCl <https://pypi.org/project/PyNaCl/>`__ (для голосовой поддержки)
-
-Пожалуйста, обратите внимание, что при установке голосовой связи в Linux вы должны установить следующие пакеты через ваш любимый менеджер пакетов (например, `apt`, `dnf` и т.д.) Перед выполнением вышеуказанных команд:
 
 * libffi-dev (или ``libffi-devel`` на некоторых системах)
 * python-dev (например: ``python3.6-dev`` для Python 3.6)
