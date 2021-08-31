@@ -11,62 +11,64 @@
    :target: https://pypi.python.org/pypi/nextcord
    :alt: PyPI supported Python versions
 
-Liftcord is a modern, easy to use, feature-rich, and async ready API wrapper for Discord written in Python.
+Liftcord это современная, простая в использовании, многофункциональная и асинхронная готовая оболочка API для Discord, написанная на Python.
 
-Key Features
+Ключевые особенности
 -------------
 
-- Modern Pythonic API using ``async`` and ``await``.
+- Современное Python использование ``async`` и ``await``.
 - Proper rate limit handling.
 - Optimised in both speed and memory.
 
-Installing
+Установка
 ----------
 
-**Python 3.8 or higher is required**
+**Python 3.8 или выше обязательно**
 
-To install the library without full voice support, you can just run the following command:
+Чтобы установить библиотеку без полной голосовой поддержки, вы можете просто выполнить одну из следующих команд:
 
 .. code:: sh
+
+    # Windows
+    py -3 -m pip install -U nextcord
+    pip install -U nextcord
 
     # Linux/macOS
     python3 -m pip install -U nextcord
 
-    # Windows
-    py -3 -m pip install -U nextcord
-
-Otherwise to get voice support you should run the following command:
+В противном случае, чтобы получить голосовую поддержку, вам следует выполнить следующую команду:
 
 .. code:: sh
+
+    # Windows
+    py -3 -m pip install -U nextcord[voice]
+    pip install -U nextcord[voice]
 
     # Linux/macOS
     python3 -m pip install -U "nextcord[voice]"
 
-    # Windows
-    py -3 -m pip install -U nextcord[voice]
 
-
-To install the development version, do the following:
+Чтобы установить разрабатываемую версию делайте следующее:
 
 .. code:: sh
 
-    $ git clone https://github.com/nextcord/nextcord/
-    $ cd nextcord
+    $ git clone https://github.com/liftcord/liftcord/
+    $ cd liftcord
     $ python3 -m pip install -U .[voice]
 
 
-Optional Packages
+Необязательные библиотеки
 ~~~~~~~~~~~~~~~~~~
 
-* `PyNaCl <https://pypi.org/project/PyNaCl/>`__ (for voice support)
+* `PyNaCl <https://pypi.org/project/PyNaCl/>`__ (для голосовой поддержки)
 
-Please note that on Linux installing voice you must install the following packages via your favourite package manager (e.g. ``apt``, ``dnf``, etc) before running the above commands:
+Пожалуйста, обратите внимание, что при установке голосовой связи в Linux вы должны установить следующие пакеты через ваш любимый менеджер пакетов (например, `apt`, `dnf` и т.д.) Перед выполнением вышеуказанных команд:
 
-* libffi-dev (or ``libffi-devel`` on some systems)
-* python-dev (e.g. ``python3.6-dev`` for Python 3.6)
+* libffi-dev (или ``libffi-devel`` на некоторых системах)
+* python-dev (например: ``python3.6-dev`` для Python 3.6)
 
 
-Quick Example
+Быстрый пример
 ~~~~~~~~~~~~~
 
 .. code:: py
@@ -83,13 +85,13 @@ Quick Example
     bot.run('TOKEN')
 
 
-You can find more examples in the examples directory.
+Вы можете найти больше примеров в директории примеров.
 
-**NOTE:** It is not advised to leave your TOKEN directly in your code, as it allows anyone with it to access your bot. If you intend to make your code public you should `store it securely <https://github.com/nextcord/nextcord/blob/master/examples/secure_token_storage.py/>`_.
+**ПРИМЕЧАНИЕ:** Не рекомендуется оставлять свой ТОКЕН непосредственно в коде, так как это позволяет любому, у кого он есть, получить доступ к вашему боту. Если вы намерены сделать свой код общедоступным, вы должны надежно хранить его <https://github.com/liftcord/liftcord/blob/master/examples/secure_token_storage.py/>`_.
 
-Links
+Ссылки
 ------
 
-- `Documentation <https://liftcord.readthedocs.io/en/latest/>`_
-- `Official Discord Server <https://discord.gg/------->`_
+- `Документация <https://liftcord.readthedocs.io/en/latest/>`_
+- `Официальный Дискорд сервер <https://discord.gg/------->`_
 - `Discord API <https://discord.gg/discord-api>`_
