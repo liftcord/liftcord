@@ -7,6 +7,16 @@ A basic wrapper for the Discord API.
 :copyright: (c) 2021 xXSergeyXx
 :license: MIT, see LICENSE for more details.
 
+
+
+Оболочка API Discord
+~~~~~~~~~~~~~~~~~~~
+
+Базовая оболочка для API Discord.
+
+:авторское право: (c) 2021 xXSergeyXx
+:лицензия: MIT, более подробную информацию см. в разделе ЛИЦЕНЗИЯ.
+
 """
 
 __title__ = 'liftcord'
@@ -65,10 +75,10 @@ class VersionInfo(NamedTuple):
     major: int
     minor: int
     micro: int
-    releaselevel: Literal["alpha", "beta", "candidate", "final"]
+    releaselevel: Literal["alpha", "closed-beta", "beta", "candidate", "final"]
     serial: int
 
 
-version_info: VersionInfo = VersionInfo(major=1, minor=0, micro=1, releaselevel='alpha', serial=0)
+version_info: VersionInfo = VersionInfo(major=1, minor=0, micro=2, releaselevel='alpha', serial=1)
 
 logging.getLogger(__name__).addHandler(logging.NullHandler())
