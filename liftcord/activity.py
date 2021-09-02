@@ -42,11 +42,11 @@ __all__ = (
     'CustomActivity',
 )
 
-"""If curious, this is the current schema for an activity.
+"""Если вам интересно, это текущая схема для действия.
 
-It's fairly long so I will document it here:
+Это довольно долго, поэтому я задокументирую это здесь:
 
-All keys are optional.
+Все ключи являются необязательными.
 
 state: str (max: 128),
 details: str (max: 128)
@@ -78,7 +78,7 @@ buttons: list[dict]
     label: str (max: 32)
     url: str (max: 512)
 
-There are also activity flags which are mostly uninteresting for the library atm.
+Существуют также флаги активности, которые в основном неинтересны для библиотечного использования.
 
 t.ActivityFlags = {
     INSTANCE: 1,
@@ -101,22 +101,21 @@ if TYPE_CHECKING:
 
 
 class BaseActivity:
-    """The base activity that all user-settable activities inherit from.
-    A user-settable activity is one that can be used in :meth:`Client.change_presence`.
+    """Базовое действие, от которого наследуются все настраиваемые пользователем действия.
+    Настраиваемое пользователем действие-это действие, которое можно использовать в :meth:`Client.change_presence`.
 
-    The following types currently count as user-settable:
+    Следующие типы в настоящее время считаются настраиваемыми пользователем:
 
     - :class:`Activity`
     - :class:`Game`
     - :class:`Streaming`
     - :class:`CustomActivity`
 
-    Note that although these types are considered user-settable by the library,
-    Discord typically ignores certain combinations of activity depending on
-    what is currently set. This behaviour may change in the future so there are
-    no guarantees on whether Discord will actually let you set these types.
-
-    .. versionadded:: 1.3
+    Обратите внимание, что, хотя эти типы считаются настраиваемыми пользователем библиотекой,
+    Discord обычно игнорирует определенные комбинации действий в зависимости от того,
+    что установлено в данный момент. Это поведение может измениться в будущем, поэтому нет
+    никаких гарантий того, что Discord действительно позволит вам устанавливать эти типы.
+    .. versionadded:: 1.0.2
     """
 
     __slots__ = ('_created_at',)
@@ -126,9 +125,9 @@ class BaseActivity:
 
     @property
     def created_at(self) -> Optional[datetime.datetime]:
-        """Optional[:class:`datetime.datetime`]: When the user started doing this activity in UTC.
+        """Необязательно[:class:`datetime.datetime`]: Сообщает о том когда пользователь поставил данную активность.
 
-        .. versionadded:: 1.3
+        .. versionadded:: 1.0.2
         """
         if self._created_at is not None:
             return datetime.datetime.fromtimestamp(self._created_at / 1000, tz=datetime.timezone.utc)
@@ -138,64 +137,65 @@ class BaseActivity:
 
 
 class Activity(BaseActivity):
-    """Represents an activity in Discord.
+    """Представляет собой деятельность в Discord.
 
-    This could be an activity such as streaming, playing, listening
-    or watching.
+    Это может быть такая деятельность, как стриминг, игра, прослушивание
+    или просмотр.
 
-    For memory optimisation purposes, some activities are offered in slimmed
-    down versions:
+    В целях оптимизации памяти некоторые виды деятельности предлагаются в уменьшенном
+    нижние версии:
 
     - :class:`Game`
     - :class:`Streaming`
 
-    Attributes
+    Аттрибуты
     ------------
-    application_id: Optional[:class:`int`]
-        The application ID of the game.
-    name: Optional[:class:`str`]
-        The name of the activity.
-    url: Optional[:class:`str`]
-        A stream URL that the activity could be doing.
+    application_id: Необязательно[:class:`int`]
+        ID приложения игры.
+    name: Необязательно[:class:`str`]
+        Название Активности.
+    url: Необязательно[:class:`str`]
+        URL-адрес трансляции, который может выполнять Активность.
     type: :class:`ActivityType`
-        The type of activity currently being done.
-    state: Optional[:class:`str`]
-        The user's current state. For example, "In Game".
-    details: Optional[:class:`str`]
-        The detail of the user's current activity.
+        Вид активности, осуществляемой в настоящее время.
+    state: Необязательно[:class:`str`]
+        Текущее состояние пользователя. Например, "В игре".
+    details: Необязательно[:class:`str`]
+        Подробная информация о текущей Активности пользователя.
     timestamps: :class:`dict`
-        A dictionary of timestamps. It contains the following optional keys:
+        Словарь временных меток. Он содержит следующие дополнительные ключи:
 
-        - ``start``: Corresponds to when the user started doing the
-          activity in milliseconds since Unix epoch.
-        - ``end``: Corresponds to when the user will finish doing the
-          activity in milliseconds since Unix epoch.
+        - ``start``: Соответствует моменту, когда пользователь начал выполнять
+        действия в миллисекундах с эпохи Unix.
+        - ``end``: Соответствует моменту, когда пользователь завершит выполнение
+        действия в миллисекундах с эпохи Unix.
 
     assets: :class:`dict`
-        A dictionary representing the images and their hover text of an activity.
-        It contains the following optional keys:
+        Словарь, представляющий изображения и их текст при наведении курсора на Активность.
+        Он содержит следующие дополнительные ключи:
 
-        - ``large_image``: A string representing the ID for the large image asset.
-        - ``large_text``: A string representing the text when hovering over the large image asset.
-        - ``small_image``: A string representing the ID for the small image asset.
-        - ``small_text``: A string representing the text when hovering over the small image asset.
+        - ``large_image``: строка, представляющая идентификатор ресурса большого изображения.
+        - ``large_text`: строка, представляющая текст при наведении указателя мыши на ресурс большого изображения.
+        - ``small_image``: строка, представляющая идентификатор ресурса небольшого изображения.
+        - ``small_text``: строка, представляющая текст при наведении указателя мыши на небольшое изображение.
 
     party: :class:`dict`
-        A dictionary representing the activity party. It contains the following optional keys:
+        Словарь, представляющий мероприятие Активности. Он содержит следующие необязательные ключи:
 
-        - ``id``: A string representing the party ID.
-        - ``size``: A list of up to two integer elements denoting (current_size, maximum_size).
+        - ``id``: строка, представляющая идентификатор участника мероприятия.
+        - ``size``: список до двух целых элементов, обозначающих (current_size, maximum_size).
+
     buttons: List[:class:`dict`]
-        An list of dictionaries representing custom buttons shown in a rich presence.
-        Each dictionary contains the following keys:
+        Список словарей, представляющих пользовательские кнопки, отображается в расширенном виде.
+        Каждый словарь содержит следующие ключи:
 
-        - ``label``: A string representing the text shown on the button.
-        - ``url``: A string representing the URL opened upon clicking the button.
+        - ``label``: строка, представляющая текст, отображаемый на кнопке.
+        - ``url``: строка, представляющая URL-адрес, открытый при нажатии на кнопку.
 
-        .. versionadded:: 2.0
+        .. versionadded:: 1.0.2
 
-    emoji: Optional[:class:`PartialEmoji`]
-        The emoji that belongs to this activity.
+    emoji: Необязательно[:class:`PartialEmoji`]
+        Эмодзи который пренадлежит этой Активности.
     """
 
     __slots__ = (
@@ -270,7 +270,7 @@ class Activity(BaseActivity):
 
     @property
     def start(self) -> Optional[datetime.datetime]:
-        """Optional[:class:`datetime.datetime`]: When the user started doing this activity in UTC, if applicable."""
+        """Необязательно[:class:`datetime.datetime`]: Когда пользователь начал выполнять эту Активность в UTC, если применимо."""
         try:
             timestamp = self.timestamps['start'] / 1000
         except KeyError:
@@ -280,7 +280,7 @@ class Activity(BaseActivity):
 
     @property
     def end(self) -> Optional[datetime.datetime]:
-        """Optional[:class:`datetime.datetime`]: When the user will stop doing this activity in UTC, if applicable."""
+        """Необязательно[:class:`datetime.datetime`]: Когда пользователь закончит выполнять эту Активность в UTC, если применимо."""
         try:
             timestamp = self.timestamps['end'] / 1000
         except KeyError:
@@ -290,7 +290,7 @@ class Activity(BaseActivity):
 
     @property
     def large_image_url(self) -> Optional[str]:
-        """Optional[:class:`str`]: Returns a URL pointing to the large image asset of this activity if applicable."""
+        """Необязательно[:class:`str`]: Возвращает URL-адрес, указывающий на ресурс большого изображения этой Активности, если применимо."""
         if self.application_id is None:
             return None
 
@@ -303,7 +303,7 @@ class Activity(BaseActivity):
 
     @property
     def small_image_url(self) -> Optional[str]:
-        """Optional[:class:`str`]: Returns a URL pointing to the small image asset of this activity if applicable."""
+        """Необязательно[:class:`str`]: Возвращает URL-адрес, указывающий на ресурс маленького изображения этой Активности, если применимо."""
         if self.application_id is None:
             return None
 
@@ -316,47 +316,48 @@ class Activity(BaseActivity):
 
     @property
     def large_image_text(self) -> Optional[str]:
-        """Optional[:class:`str`]: Returns the large image asset hover text of this activity if applicable."""
+        """Необязательно[:class:`str`]: Возвращает текст наведения курсора на большое изображение этой Активности, если применимо."""
         return self.assets.get('large_text', None)
 
     @property
     def small_image_text(self) -> Optional[str]:
-        """Optional[:class:`str`]: Returns the small image asset hover text of this activity if applicable."""
+        """Необязательно[:class:`str`]: Возвращает текст наведения курсора на маленькое изображение этой Активности, если применимо."""
         return self.assets.get('small_text', None)
 
 
 class Game(BaseActivity):
-    """A slimmed down version of :class:`Activity` that represents a Discord game.
+    """Уменьшенная версия :class:`Activity`, которая представляет собой игру в Discord.
 
-    This is typically displayed via **Playing** on the official Discord client.
+    Обычно это отображается через **Играет** на официальном клиенте Discord.
 
     .. container:: operations
 
         .. describe:: x == y
 
-            Checks if two games are equal.
+            Проверяет эквивалентны ли две игры друг другу.
 
         .. describe:: x != y
 
-            Checks if two games are not equal.
+            Проверяет не эквивалентны ли две игры друг другу.
+
 
         .. describe:: hash(x)
 
-            Returns the game's hash.
+            Возвращает хэш игры.
 
         .. describe:: str(x)
 
-            Returns the game's name.
+            Возвращает название игры
 
-    Parameters
+    Параметры
     -----------
     name: :class:`str`
-        The game's name.
+        Название игры.
 
-    Attributes
+    Аттрибуты
     -----------
     name: :class:`str`
-        The game's name.
+        Название игры.
     """
 
     __slots__ = ('name', '_end', '_start')
@@ -376,22 +377,22 @@ class Game(BaseActivity):
 
     @property
     def type(self) -> ActivityType:
-        """:class:`ActivityType`: Returns the game's type. This is for compatibility with :class:`Activity`.
+        """:class:`ActivityType`: Возвращает тип игры. Для совместимости с :class:`Activity`.
 
-        It always returns :attr:`ActivityType.playing`.
+        Всегда возращает :attr:`ActivityType.playing`.
         """
         return ActivityType.playing
 
     @property
     def start(self) -> Optional[datetime.datetime]:
-        """Optional[:class:`datetime.datetime`]: When the user started playing this game in UTC, if applicable."""
+        """Необязательно[:class:`datetime.datetime`]: Когда пользователь начал играть в эту Игру в UTC, если применимо."""
         if self._start:
             return datetime.datetime.fromtimestamp(self._start / 1000, tz=datetime.timezone.utc)
         return None
 
     @property
     def end(self) -> Optional[datetime.datetime]:
-        """Optional[:class:`datetime.datetime`]: When the user will stop playing this game in UTC, if applicable."""
+        """Необязательно[:class:`datetime.datetime`]: Когда пользователь закончил играть в эту Игру в UTC, если применимо."""
         if self._end:
             return datetime.datetime.fromtimestamp(self._end / 1000, tz=datetime.timezone.utc)
         return None
@@ -429,48 +430,48 @@ class Game(BaseActivity):
 
 
 class Streaming(BaseActivity):
-    """A slimmed down version of :class:`Activity` that represents a Discord streaming status.
+    """Уменьшенная версия :class:`Activity`, представляющая статус трансляции Discord.
 
-    This is typically displayed via **Streaming** on the official Discord client.
+    Обычно это отображается с помощью **Стримит** на официальном клиенте Discord.
 
     .. container:: operations
 
         .. describe:: x == y
 
-            Checks if two streams are equal.
+            Проверяет эквивалентны ли две трансляции друг другу.
 
         .. describe:: x != y
 
-            Checks if two streams are not equal.
+            Проверяет не эквивалентны ли две трансляции друг другу.
 
         .. describe:: hash(x)
 
-            Returns the stream's hash.
+            Возвращает хэш трансляции.
 
         .. describe:: str(x)
 
-            Returns the stream's name.
+            Возвращает название трансляции.
 
     Attributes
     -----------
-    platform: Optional[:class:`str`]
-        Where the user is streaming from (ie. YouTube, Twitch).
+    platform: Необязательно[:class:`str`]
+        Платформа с которой стримит пользователь (т.е. YouTube, Twitch).
 
-        .. versionadded:: 1.3
+        .. versionadded:: 1.0.2
 
-    name: Optional[:class:`str`]
-        The stream's name.
-    details: Optional[:class:`str`]
-        An alias for :attr:`name`
-    game: Optional[:class:`str`]
-        The game being streamed.
+    name: Необязательно[:class:`str`]
+        Название трансляции.
+    details: Необязательно[:class:`str`]
+        Псевдоним для :attr:`name`.
+    game: Необязательно[:class:`str`]
+        Игра которая транслируется.
 
-        .. versionadded:: 1.3
+        .. versionadded:: 1.0.2
 
     url: :class:`str`
-        The stream's URL.
+        URL-адрес трансляции.
     assets: :class:`dict`
-        A dictionary comprising of similar keys than those in :attr:`Activity.assets`.
+        Словарь содержащие ключи аналогичные ключам в :attr:`Activity.assets`.
     """
 
     __slots__ = ('platform', 'name', 'game', 'url', 'details', 'assets')
@@ -486,9 +487,9 @@ class Streaming(BaseActivity):
 
     @property
     def type(self) -> ActivityType:
-        """:class:`ActivityType`: Returns the game's type. This is for compatibility with :class:`Activity`.
+        """:class:`ActivityType`: Возвращает тип трансляции. Для совместимости с :class:`Activity`.
 
-        It always returns :attr:`ActivityType.streaming`.
+        Всегда возращает :attr:`ActivityType.streaming`.
         """
         return ActivityType.streaming
 
@@ -500,10 +501,10 @@ class Streaming(BaseActivity):
 
     @property
     def twitch_name(self):
-        """Optional[:class:`str`]: If provided, the twitch name of the user streaming.
+        """Необязательно[:class:`str`]: Если указано, имя пользователя twitch для трансляции.
 
-        This corresponds to the ``large_image`` key of the :attr:`Streaming.assets`
-        dictionary if it starts with ``twitch:``. Typically set by the Discord client.
+        Это соответствует ключу ``large_image`` в :attr:`Streaming.assets`
+        словаре, если он начинается с ``twitch:``. Обычно устанавливается клиентом Discord.
         """
 
         try:
@@ -537,26 +538,27 @@ class Streaming(BaseActivity):
 
 
 class Spotify:
-    """Represents a Spotify listening activity from Discord. This is a special case of
-    :class:`Activity` that makes it easier to work with the Spotify integration.
+    """Представляет Активность прослушивания Spotify от Discord. Это особый случай
+    :class:`Activity`, что облегчает работу с интеграцией Spotify.
 
     .. container:: operations
 
         .. describe:: x == y
 
-            Checks if two activities are equal.
+            Проверяет эквивалентны ли две Активности друг другу.
 
         .. describe:: x != y
 
-            Checks if two activities are not equal.
+            Проверяет не эквивалентны ли две Активности друг другу.
+
 
         .. describe:: hash(x)
 
-            Returns the activity's hash.
+            Возвращает хэш Активности
 
         .. describe:: str(x)
 
-            Returns the string 'Spotify'.
+            Возвращает строку 'Spotify'.
     """
 
     __slots__ = ('_state', '_details', '_timestamps', '_assets', '_party', '_sync_id', '_session_id', '_created_at')
@@ -573,33 +575,33 @@ class Spotify:
 
     @property
     def type(self) -> ActivityType:
-        """:class:`ActivityType`: Returns the activity's type. This is for compatibility with :class:`Activity`.
+        """:class:`ActivityType`: Возвращает тип Активности. Для совместимости с :class:`Activity`.
 
-        It always returns :attr:`ActivityType.listening`.
+        Всегда возращает :attr:`ActivityType.listening`.
         """
         return ActivityType.listening
 
     @property
     def created_at(self) -> Optional[datetime.datetime]:
-        """Optional[:class:`datetime.datetime`]: When the user started listening in UTC.
+        """Необязательно[:class:`datetime.datetime`]: Когда пользователь начал слушать в UTC.
 
-        .. versionadded:: 1.3
+        .. versionadded:: 1.0.2
         """
         if self._created_at is not None:
             return datetime.datetime.fromtimestamp(self._created_at / 1000, tz=datetime.timezone.utc)
 
     @property
     def colour(self) -> Colour:
-        """:class:`Colour`: Returns the Spotify integration colour, as a :class:`Colour`.
+        """:class:`Colour`: Возвращает интегрированый цвет Spotify, в виде :class:`Colour`.
 
-        There is an alias for this named :attr:`color`"""
+        Это псевдоним для :attr:`color`"""
         return Colour(0x1DB954)
 
     @property
     def color(self) -> Colour:
-        """:class:`Colour`: Returns the Spotify integration colour, as a :class:`Colour`.
+        """:class:`Colour`: Возвращает интегрированый цвет Spotify, в виде :class:`Colour`.
 
-        There is an alias for this named :attr:`colour`"""
+        Это псевдоним для :attr:`colour`"""
         return self.colour
 
     def to_dict(self) -> Dict[str, Any]:
@@ -617,7 +619,7 @@ class Spotify:
 
     @property
     def name(self) -> str:
-        """:class:`str`: The activity's name. This will always return "Spotify"."""
+        """:class:`str`: Название Активности. Всегда возвращает "Spotify"."""
         return 'Spotify'
 
     def __eq__(self, other: Any) -> bool:
@@ -642,31 +644,31 @@ class Spotify:
 
     @property
     def title(self) -> str:
-        """:class:`str`: The title of the song being played."""
+        """:class:`str`: Название исполняемой песни."""
         return self._details
 
     @property
     def artists(self) -> List[str]:
-        """List[:class:`str`]: The artists of the song being played."""
+        """List[:class:`str`]: Исполнители данной песни"""
         return self._state.split('; ')
 
     @property
     def artist(self) -> str:
-        """:class:`str`: The artist of the song being played.
+        """:class:`str`: Исполнитель данной песни.
 
-        This does not attempt to split the artist information into
-        multiple artists. Useful if there's only a single artist.
+        Это не попытка разделить информацию об исполнителе на
+        несколько исполнителей. Полезно, если есть только один исполнитель.
         """
         return self._state
 
     @property
     def album(self) -> str:
-        """:class:`str`: The album that the song being played belongs to."""
+        """:class:`str`: Альбом, которому пренадлежит воспроизводящаяся песня"""
         return self._assets.get('large_text', '')
 
     @property
     def album_cover_url(self) -> str:
-        """:class:`str`: The album cover image URL from Spotify's CDN."""
+        """:class:`str`: URL-адрес изображения обложки альбома с CDN Spotify."""
         large_image = self._assets.get('large_image', '')
         if large_image[:8] != 'spotify:':
             return ''
@@ -675,67 +677,67 @@ class Spotify:
 
     @property
     def track_id(self) -> str:
-        """:class:`str`: The track ID used by Spotify to identify this song."""
+        """:class:`str`: ID трека, используемый Spotify для идентификации этой песни."""
         return self._sync_id
 
     @property
     def track_url(self) -> str:
-        """:class:`str`: The track URL to listen on Spotify.
+        """:class:`str`: URL-адрес трека для прослушивания на Spotify.
 
-        .. versionadded:: 2.0
+        .. versionadded:: 1.0.2
         """
         return f'https://open.spotify.com/track/{self.track_id}'
 
     @property
     def start(self) -> datetime.datetime:
-        """:class:`datetime.datetime`: When the user started playing this song in UTC."""
+        """:class:`datetime.datetime`: Когда пользователь начал прослушивать эту песню в UTC"""
         return datetime.datetime.fromtimestamp(self._timestamps['start'] / 1000, tz=datetime.timezone.utc)
 
     @property
     def end(self) -> datetime.datetime:
-        """:class:`datetime.datetime`: When the user will stop playing this song in UTC."""
+        """:class:`datetime.datetime`: Когда пользователь закончит прослушивать эту песню в UTC"""
         return datetime.datetime.fromtimestamp(self._timestamps['end'] / 1000, tz=datetime.timezone.utc)
 
     @property
     def duration(self) -> datetime.timedelta:
-        """:class:`datetime.timedelta`: The duration of the song being played."""
+        """:class:`datetime.timedelta`: Продолжительность воспроизводимой песни."""
         return self.end - self.start
 
     @property
     def party_id(self) -> str:
-        """:class:`str`: The party ID of the listening party."""
+        """:class:`str`: ID вечеринки участника вечеринки прослушивания."""
         return self._party.get('id', '')
 
 
 class CustomActivity(BaseActivity):
-    """Represents a Custom activity from Discord.
+    """Представляет собственную Активность из Discord.
 
     .. container:: operations
 
         .. describe:: x == y
 
-            Checks if two activities are equal.
+            Проверяет эквивалентны ли две Активности друг другу.
 
         .. describe:: x != y
 
-            Checks if two activities are not equal.
+            Проверяет не эквивалентны ли две Активности друг другу.
 
         .. describe:: hash(x)
 
-            Returns the activity's hash.
+            Возвращает хэш Активности.
 
         .. describe:: str(x)
 
-            Returns the custom status text.
+            Возвращает собственный текст статуса.
 
-    .. versionadded:: 1.3
+    .. versionadded:: 1.0.2
 
-    Attributes
+    Аттрибуты
     -----------
-    name: Optional[:class:`str`]
-        The custom activity's name.
-    emoji: Optional[:class:`PartialEmoji`]
-        The emoji to pass to the activity, if any.
+    name: Необязательно[:class:`str`]
+        Название Активности.
+    emoji: Необязательно[:class:`PartialEmoji`]
+        Смайлик для перехода к Активности, если таковой имеется.
     """
 
     __slots__ = ('name', 'emoji', 'state')
@@ -757,13 +759,13 @@ class CustomActivity(BaseActivity):
         elif isinstance(emoji, PartialEmoji):
             self.emoji = emoji
         else:
-            raise TypeError(f'Expected str, PartialEmoji, or None, received {type(emoji)!r} instead.')
+            raise TypeError(f'Ожидалось str, PartialEmoji, или None, получено {type(emoji)!r} вместо этого.')
 
     @property
     def type(self) -> ActivityType:
-        """:class:`ActivityType`: Returns the activity's type. This is for compatibility with :class:`Activity`.
+        """:class:`ActivityType`: Возвращает тип Активности. Для совместимости с :class:`Activity`.
 
-        It always returns :attr:`ActivityType.custom`.
+        Всегда возвращает :attr:`ActivityType.custom`.
         """
         return ActivityType.custom
 
