@@ -20,6 +20,27 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+----------------------------------------------------------------------
+
+Авторские права (c) 2021 xXSergeyXx
+
+Данная лицензия разрешает лицам, получившим копию данного программного
+обеспечения и сопутствующей документации (в дальнейшем именуемыми «Программное обеспечение»), 
+безвозмездно использовать Программное обеспечение без ограничений, включая неограниченное 
+право на использование, копирование, изменение, слияние, публикацию, распространение, 
+сублицензирование и/или продажу копий Программного обеспечения, а также лицам, которым 
+предоставляется данное Программное обеспечение, при соблюдении следующих условий:
+
+Указанное выше уведомление об авторском праве и данные условия должны быть включены во 
+все копии или значимые части данного Программного обеспечения.
+
+ДАННОЕ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ ПРЕДОСТАВЛЯЕТСЯ «КАК ЕСТЬ», БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ, ЯВНО ВЫРАЖЕННЫХ 
+ИЛИ ПОДРАЗУМЕВАЕМЫХ, ВКЛЮЧАЯ ГАРАНТИИ ТОВАРНОЙ ПРИГОДНОСТИ, СООТВЕТСТВИЯ ПО ЕГО КОНКРЕТНОМУ 
+НАЗНАЧЕНИЮ И ОТСУТСТВИЯ НАРУШЕНИЙ, НО НЕ ОГРАНИЧИВАЯСЬ ИМИ. НИ В КАКОМ СЛУЧАЕ АВТОРЫ ИЛИ ПРАВООБЛАДАТЕЛИ 
+НЕ НЕСУТ ОТВЕТСТВЕННОСТИ ПО КАКИМ-ЛИБО ИСКАМ, ЗА УЩЕРБ ИЛИ ПО ИНЫМ ТРЕБОВАНИЯМ, В ТОМ ЧИСЛЕ, ПРИ 
+ДЕЙСТВИИ КОНТРАКТА, ДЕЛИКТЕ ИЛИ ИНОЙ СИТУАЦИИ, ВОЗНИКШИМ ИЗ-ЗА ИСПОЛЬЗОВАНИЯ ПРОГРАММНОГО 
+ОБЕСПЕЧЕНИЯ ИЛИ ИНЫХ ДЕЙСТВИЙ С ПРОГРАММНЫМ ОБЕСПЕЧЕНИЕМ.
 """
 
 import argparse
@@ -38,9 +59,9 @@ def show_version():
     version_info = liftcord.version_info
     entries.append('- liftcord v{0.major}.{0.minor}.{0.micro}-{0.releaselevel}'.format(version_info))
     if version_info.releaselevel != 'final':
-        pkg = pkg_resources.get_distribution('nextcord')
+        pkg = pkg_resources.get_distribution('liftcord')
         if pkg:
-            entries.append(f'    - nextcord pkg_resources: v{pkg.version}')
+            entries.append(f'    - liftcord pkg_resources: v{pkg.version}')
 
     entries.append(f'- aiohttp v{aiohttp.__version__}')
     uname = platform.uname()
@@ -53,8 +74,8 @@ def core(parser, args):
 
 _bot_template = """#!/usr/bin/env python3
 
-from nextcord.ext import commands
-import nextcord
+from liftcord.ext import commands
+import liftcord
 import config
 
 class Bot(commands.{base}):
@@ -64,15 +85,15 @@ class Bot(commands.{base}):
             try:
                 self.load_extension(cog)
             except Exception as exc:
-                print(f'Could not load extension {{cog}} due to {{exc.__class__.__name__}}: {{exc}}')
+                print(f'Не удалось загрузить расширение {{cog}} из-за {{exc.__class__.__name__}}: {{exc}}')
 
     async def on_ready(self):
-        print(f'Logged on as {{self.user}} (ID: {{self.user.id}})')
+        print(f'Авторизовано как {{self.user}} (ID: {{self.user.id}})')
 
 
 bot = Bot()
 
-# write general commands here
+# Напишите главные команды здесь
 
 bot.run(config.token)
 """
@@ -108,7 +129,7 @@ config.py
 """
 
 _cog_template = '''from nextcord.ext import commands
-import nextcord
+import liftcord
 
 class {name}(commands.Cog{attrs}):
     """The description for {name} goes here."""
@@ -180,7 +201,7 @@ def to_path(parser, name, *, replace_spaces=False):
         forbidden = ('CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', \
                      'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9')
         if len(name) <= 4 and name.upper() in forbidden:
-            parser.error('invalid directory name given, use a different one')
+            parser.error('указано неверное имя каталога, используйте другое')
 
     name = name.translate(_translation_table)
     if replace_spaces:
@@ -195,7 +216,7 @@ def newbot(parser, args):
     try:
         new_directory.mkdir(exist_ok=True, parents=True)
     except OSError as exc:
-        parser.error(f'could not create our bot directory ({exc})')
+        parser.error(f'не удалось создать каталог вашего бота ({exc})')
 
     cogs = new_directory / 'cogs'
 
@@ -204,27 +225,27 @@ def newbot(parser, args):
         init = cogs / '__init__.py'
         init.touch()
     except OSError as exc:
-        print(f'warning: could not create cogs directory ({exc})')
+        print(f'предупреждение: не удалось создать каталог cogs ({exc})')
 
     try:
         with open(str(new_directory / 'config.py'), 'w', encoding='utf-8') as fp:
-            fp.write('token = "place your token here"\ncogs = []\n')
+            fp.write('token = "вставь свой токен сюда"\ncogs = []\n')
     except OSError as exc:
-        parser.error(f'could not create config file ({exc})')
+        parser.error(f'не удалось создать файл конфигурации ({exc})')
 
     try:
         with open(str(new_directory / 'bot.py'), 'w', encoding='utf-8') as fp:
             base = 'Bot' if not args.sharded else 'AutoShardedBot'
             fp.write(_bot_template.format(base=base, prefix=args.prefix))
     except OSError as exc:
-        parser.error(f'could not create bot file ({exc})')
+        parser.error(f'не удалось создать файл бота ({exc})')
 
     if not args.no_git:
         try:
             with open(str(new_directory / '.gitignore'), 'w', encoding='utf-8') as fp:
                 fp.write(_gitignore_template)
         except OSError as exc:
-            print(f'warning: could not create .gitignore file ({exc})')
+            print(f'внимание: не удалось создать .gitignore файл ({exc})')
 
     print('successfully made bot at', new_directory)
 
@@ -233,7 +254,7 @@ def newcog(parser, args):
     try:
         cog_dir.mkdir(exist_ok=True)
     except OSError as exc:
-        print(f'warning: could not create cogs directory ({exc})')
+        print(f'предупреждение: не удалось создать каталог cogs ({exc})')
 
     directory = cog_dir / to_path(parser, args.name)
     directory = directory.with_suffix('.py')
@@ -257,9 +278,9 @@ def newcog(parser, args):
                 attrs += ', command_attrs=dict(hidden=True)'
             fp.write(_cog_template.format(name=name, extra=extra, attrs=attrs))
     except OSError as exc:
-        parser.error(f'could not create cog file ({exc})')
+        parser.error(f'не удалось создать cog файл ({exc})')
     else:
-        print('successfully made cog at', directory)
+        print('успешно сделанный cog в', directory)
 
 def add_newbot_args(subparser):
     parser = subparser.add_parser('newbot', help='creates a command bot project quickly')
